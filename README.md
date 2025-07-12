@@ -1,6 +1,6 @@
 # SkillCertify - Online Learning & Certification Platform
 
-A responsive web application built with React andt provides comprehensive online learning experiences with certification capabilities. SkillCertify enables users to enroll in courses, complete practical assignments, and earn verifiable certificates to advance their careers.
+A responsive web application built with React andt provides comprehensive online learning experiences with certification capabilities. SkillCertify enables users to enroll in courses, complete practical assignments, and earn verifiable certificates to advance the
 
 ## 🚀 Features
 
