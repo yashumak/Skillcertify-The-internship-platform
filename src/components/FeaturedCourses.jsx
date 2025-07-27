@@ -41,6 +41,15 @@ function FeaturedCourses() {
     },
   ];
 
+  const handleImageError = (e) => {
+    e.target.src = "/images/placeholder.jpg";
+    e.target.alt = "Course image placeholder";
+  };
+
+  const handleImageLoad = (e) => {
+    e.target.style.opacity = "1";
+  };
+
   return (
     <div className="space-y-8">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -49,14 +58,14 @@ function FeaturedCourses() {
             key={course.id}
             className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-shadow duration-300"
           >
-            <div className="aspect-video relative overflow-hidden">
+            <div className="aspect-video relative overflow-hidden bg-gray-100">
               <img
                 src={course.image}
                 alt={course.title}
-                className="object-cover w-full h-full transform hover:scale-105 transition-transform duration-300"
-                onError={(e) => {
-                  e.target.src = "/placeholder.svg?text=Course+Image";
-                }}
+                className="object-cover w-full h-full transform hover:scale-105 transition-transform duration-300 opacity-0 transition-opacity duration-300"
+                onLoad={handleImageLoad}
+                onError={handleImageError}
+                loading="eager"
               />
             </div>
             <div className="p-6">

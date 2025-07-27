@@ -14,6 +14,15 @@ export default function CourseDetailsPage() {
   // Find the course by slug
   const course = allCourses.find((c) => c.slug === slug);
 
+  const handleImageError = (e) => {
+    e.target.src = "/images/placeholder.jpg";
+    e.target.alt = "Course image placeholder";
+  };
+
+  const handleImageLoad = (e) => {
+    e.target.style.opacity = "1";
+  };
+
   if (!course) {
     return (
       <div className="container mx-auto px-4 py-8">
@@ -137,11 +146,14 @@ export default function CourseDetailsPage() {
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             <div className="rounded-lg overflow-hidden border bg-card text-card-foreground shadow-lg">
-              <div className="aspect-video w-full overflow-hidden">
+              <div className="aspect-video w-full overflow-hidden bg-gray-100">
                 <img
-                  src={course.image || "/placeholder.svg"}
+                  src={course.image || "/images/placeholder.jpg"}
                   alt={course.title}
-                  className="object-cover w-full h-full"
+                  className="object-cover w-full h-full opacity-0 transition-opacity duration-300"
+                  onLoad={handleImageLoad}
+                  onError={handleImageError}
+                  loading="eager"
                 />
               </div>
               <div className="p-6 space-y-6">
@@ -156,14 +168,14 @@ export default function CourseDetailsPage() {
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <Button asChild className="flex-1" size="lg">
-                    <a
+                  <Button className="flex-1" size="lg">
+                    {/* <a
                       href="https://forms.gle/irN9CaHpZpXkrX8t8"
                       target="_blank"
                       rel="noopener noreferrer"
-                    >
+                    > */}
                       Enroll Now
-                    </a>
+                    {/* </a> */}
                   </Button>
                   <Button variant="outline" size="icon" onClick={handleShare}>
                     <Share2 className="h-5 w-5" />

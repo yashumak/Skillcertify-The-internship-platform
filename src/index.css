@@ -42,6 +42,27 @@
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+
+  /* Image loading improvements */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Prevent layout shift during image loading */
+  .aspect-video {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .aspect-video img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
 
 /* Custom styles */

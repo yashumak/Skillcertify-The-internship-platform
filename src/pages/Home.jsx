@@ -13,6 +13,15 @@ import {
 import FeaturedCourses from "../components/FeaturedCourses";
 
 function Home() {
+  const handleImageError = (e) => {
+    e.target.src = "/images/placeholder.jpg";
+    e.target.alt = "Image placeholder";
+  };
+
+  const handleImageLoad = (e) => {
+    e.target.style.opacity = "1";
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Hero Section */}
@@ -36,15 +45,18 @@ function Home() {
             </div>
           </div>
 
-          <div className="relative h-[400px] rounded-lg overflow-hidden">
+          <div className="relative h-[400px] rounded-lg overflow-hidden bg-gray-100">
             <img
               src="/images/Home.png"
               alt="Online learning"
-              className="object-cover w-full h-full rounded-lg border-4"
+              className="object-cover w-full h-full rounded-lg border-4 opacity-0 transition-opacity duration-300"
               style={{
                 borderColor: "rgba(59,130,246,0.5)",
                 background: "linear-gradient(135deg, #e0e7ff 0%, #3b82f6 100%)",
               }}
+              onLoad={handleImageLoad}
+              onError={handleImageError}
+              loading="eager"
             />
           </div>
         </div>
@@ -229,14 +241,14 @@ function Home() {
                 className="shadow-md p-8 bg-white rounded-xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border border-blue-100"
               >
                 <div className="flex items-center mb-6">
-                  <div className="w-14 h-14 rounded-full overflow-hidden mr-4 border-2 border-blue-200">
+                  <div className="w-14 h-14 rounded-full overflow-hidden mr-4 border-2 border-blue-200 bg-gray-100">
                     <img
                       src={student.img}
                       alt={student.name}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        e.target.src = "/images/user.jpg";
-                      }}
+                      className="w-full h-full object-cover opacity-0 transition-opacity duration-300"
+                      onLoad={handleImageLoad}
+                      onError={handleImageError}
+                      loading="eager"
                     />
                   </div>
                   <div>

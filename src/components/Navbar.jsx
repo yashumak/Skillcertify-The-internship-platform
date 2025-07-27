@@ -53,7 +53,7 @@ function Navbar() {
         </div>
 
         {/* Apply for Internship Button */}
-        <div className="hidden md:flex">
+        {/* <div className="hidden md:flex">
           <a
             href="https://forms.gle/irN9CaHpZpXkrX8t8"
             target="_blank"
@@ -63,7 +63,7 @@ function Navbar() {
           >
             Apply for Internship
           </a>
-        </div>
+        </div> */}
       </div>
     </nav>
   );

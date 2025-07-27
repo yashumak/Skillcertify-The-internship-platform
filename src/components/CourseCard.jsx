@@ -24,15 +24,26 @@ const courseData = {
 };
 
 export default function CourseCard({ course, index }) {
+  const handleImageError = (e) => {
+    e.target.src = "/images/placeholder.jpg";
+    e.target.alt = "Course image placeholder";
+  };
+
+  const handleImageLoad = (e) => {
+    e.target.style.opacity = "1";
+  };
+
   return (
     <div className="card-hover">
       <Card className="overflow-hidden flex flex-col h-full hover:shadow-lg transition-shadow duration-300">
-        <div className="aspect-video w-full overflow-hidden">
+        <div className="aspect-video w-full overflow-hidden bg-gray-100">
           <img
             src={course.image}
             alt={course.title}
-            loading="lazy"
-            className="object-cover w-full h-full transition-transform hover:scale-105 duration-300"
+            className="object-cover w-full h-full transition-transform hover:scale-105 duration-300 opacity-0 transition-opacity duration-300"
+            onLoad={handleImageLoad}
+            onError={handleImageError}
+            loading="eager"
           />
         </div>
         <CardHeader className="pb-2">
