@@ -28,6 +28,10 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   * {
     /* Remove or comment out this line */
     /* @apply border; */
