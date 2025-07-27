@@ -1,7 +1,6 @@
 # SkillCertify - Online Learning & Certification Platform
 
-A modern, responsive web application built with React and Vite that provides comprehensive online learning experiences with certification capabilities. SkillCertify enables users to enroll in courses, complete practical assignments, and earn verifiable certificates to advance their careers.
-
+killCertify is a responsive web application built with React that offers a complete online learning experience with certification capabilities. It allows users to enroll in various courses, complete practical assignments, and earn verifiable certificates to showcase their skills and advance their careers.
 ## 🚀 Features
 
 ### Core Functionality
