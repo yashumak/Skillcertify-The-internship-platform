@@ -17,3 +17,5 @@ export const AccordionTrigger = ({ children, onClick }) => (
 export const AccordionContent = ({ children }) => (
   <div className="accordion-content">{children}</div>
 );
+
+
