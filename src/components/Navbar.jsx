@@ -57,23 +57,17 @@ function Navbar() {
         </div>
 
         {/* Apply for Internship Button */}
-        {/* <div className="hidden md:flex">
-          <a
-            href="https://forms.gle/irN9CaHpZpXkrX8t8"
-            target="_blank"
-            rel="noopener noreferrer"
+        <div className="hidden md:flex">
+          <Link
+            to="/courses"
             className="ml-4 px-5 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-full font-semibold shadow-md hover:from-blue-600 hover:to-blue-800 hover:scale-105 transition-all duration-200 border-2 border-blue-600"
             style={{ letterSpacing: "0.5px" }}
           >
             Apply for Internship
-          </a>
-        </div> */}
-
-        <div className="hidden md:flex">
-          <div className="ml-4 px-5 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-full font-semibold shadow-md hover:from-blue-600 hover:to-blue-800 hover:scale-105 transition-all duration-200 border-2 border-blue-600 cursor-pointer">
-            Apply for Internship
-          </div>
+          </Link>
         </div>
+
+        
       </div>
     </nav>
   );
