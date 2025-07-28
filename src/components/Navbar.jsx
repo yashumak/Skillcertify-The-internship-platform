@@ -21,14 +21,18 @@ function Navbar() {
   // Handler for navigation clicks
   const handleNavClick = () => {
     // Ensure smooth scroll to top when navigating
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
     <nav className="bg-white shadow-md w-full fixed top-0 left-0 z-50">
       <div className="max-w-7xl mx-auto px-4 flex items-center h-16">
         {/* Logo */}
-        <Link to="/" className="text-2xl font-bold text-blue-600" onClick={handleNavClick}>
+        <Link
+          to="/"
+          className="text-2xl font-bold text-blue-600"
+          onClick={handleNavClick}
+        >
           SkillCertify
         </Link>
 
@@ -64,6 +68,12 @@ function Navbar() {
             Apply for Internship
           </a>
         </div> */}
+
+        <div className="hidden md:flex">
+          <div className="ml-4 px-5 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-full font-semibold shadow-md hover:from-blue-600 hover:to-blue-800 hover:scale-105 transition-all duration-200 border-2 border-blue-600 cursor-pointer">
+            Apply for Internship
+          </div>
+        </div>
       </div>
     </nav>
   );

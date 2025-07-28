@@ -5,11 +5,14 @@ import { Badge } from "@/components/ui/badge";
 import { Clock, User, Share2, CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { useToast } from "@/components/ui/use-toast"; // <-- fix import
+import PaymentModal from "@/components/PaymentModal";
+import { useState } from "react";
 
 export default function CourseDetailsPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast(); // <-- call the hook
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   // Find the course by slug
   const course = allCourses.find((c) => c.slug === slug);
@@ -58,6 +61,11 @@ export default function CourseDetailsPage() {
         alert("Failed to copy link.");
       }
     }
+  };
+
+  // Handle enrollment
+  const handleEnroll = () => {
+    setShowPaymentModal(true);
   };
 
   return (
@@ -160,7 +168,7 @@ export default function CourseDetailsPage() {
                 <div className="space-y-2">
                   <div className="flex justify-between">
                     <span className="text-lg font-medium">Price:</span>
-                    <span className="text-lg font-bold">{course.price}</span>
+                    <span className="text-lg font-bold">₹{course.price}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-lg font-medium">Duration:</span>
@@ -168,14 +176,12 @@ export default function CourseDetailsPage() {
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <Button className="flex-1" size="lg">
-                    {/* <a
-                      href="https://forms.gle/irN9CaHpZpXkrX8t8"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    > */}
-                      Enroll Now
-                    {/* </a> */}
+                  <Button 
+                    className="flex-1" 
+                    size="lg"
+                    onClick={handleEnroll}
+                  >
+                    Enroll Now
                   </Button>
                   <Button variant="outline" size="icon" onClick={handleShare}>
                     <Share2 className="h-5 w-5" />
@@ -242,6 +248,14 @@ export default function CourseDetailsPage() {
           </motion.div>
         </div>
       </motion.div>
+
+      {/* Payment Modal */}
+      <PaymentModal
+        isOpen={showPaymentModal}
+        onClose={() => setShowPaymentModal(false)}
+        course={course}
+        amount={parseInt(course.price)}
+      />
     </div>
   );
 }
