@@ -30,7 +30,7 @@ app.post('/api/create-order', async (req, res) => {
     const { amount, currency, courseId, courseName, customerName, customerEmail, customerPhone } = req.body;
 
     const options = {
-      amount: amount, // amount in paise
+      amount: 100, // amount in paise
       currency: currency,
       receipt: `receipt_${Date.now()}`,
       notes: {
@@ -38,7 +38,7 @@ app.post('/api/create-order', async (req, res) => {
         courseName: courseName,
         customerName: customerName,
         customerEmail: customerEmail,
-        customerPhone: customerPhone
+        // Do not include customerPhone, or set it to ""
       }
     };
 
@@ -49,7 +49,7 @@ app.post('/api/create-order', async (req, res) => {
       orderId: order.id,
       amount: order.amount,
       currency: order.currency,
-      key: process.env.RAZORPAY_KEY_ID // <-- Add this line
+      key: process.env.RAZORPAY_KEY_ID
     });
 
   } catch (error) {

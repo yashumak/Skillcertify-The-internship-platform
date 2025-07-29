@@ -26,6 +26,7 @@ dist-ssr
 # Environment variables and private config
 .env
 .env.local
+.env.example
 .env.development
 .env.production
 .env.*.local
