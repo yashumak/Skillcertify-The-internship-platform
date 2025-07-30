@@ -1,36 +1,37 @@
 import Razorpay from "razorpay";
 
-const razorpay = new Razorpay({
-    key_id: process.env.RAZORPAY_KEY_ID,
-    key_secret: process.env.RAZORPAY_KEY_SECRET,
-});
-
-// Use environment variables for the API base URL
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
-
 export default async function handler(req, res) {
     if (req.method !== "POST") {
         res.status(405).json({ error: "Method not allowed" });
         return;
     }
 
-    const { amount, currency, ...rest } = req.body;
+    // Parse body if needed (Vercel sends as string sometimes)
+    let body = req.body;
+    if (typeof body === "string") {
+        try {
+            body = JSON.parse(body);
+        } catch {
+            res.status(400).json({ error: "Invalid JSON" });
+            return;
+        }
+    }
+
+    const razorpay = new Razorpay({
+        key_id: process.env.RAZORPAY_KEY_ID,
+        key_secret: process.env.RAZORPAY_KEY_SECRET,
+    });
+
+    const options = {
+        amount: body.amount,
+        currency: "INR",
+        receipt: "order_rcptid_11",
+    };
 
     try {
-        const order = await razorpay.orders.create({
-            amount,
-            currency,
-            ...rest,
-        });
-        // Send the public key to the frontend for Razorpay Checkout
-        res.status(200).json({
-            success: true,
-            orderId: order.id,
-            amount: order.amount,
-            currency: order.currency,
-            key: process.env.RAZORPAY_KEY_ID,
-        });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
+        const order = await razorpay.orders.create(options);
+        res.status(200).json(order);
+    } catch (err) {
+        res.status(500).json({ error: "Order creation failed" });
     }
 }
