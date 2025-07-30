@@ -23,7 +23,7 @@ export default async function handler(req, res) {
     });
 
     const options = {
-        amount: body.amount,
+        amount: body.amount * 100, // Convert ₹ to paise
         currency: "INR",
         receipt: "order_rcptid_11",
     };
@@ -32,6 +32,7 @@ export default async function handler(req, res) {
         const order = await razorpay.orders.create(options);
         res.status(200).json(order);
     } catch (err) {
-        res.status(500).json({ error: "Order creation failed" });
+        console.error("Razorpay error:", err); // Log full error to Vercel logs
+        res.status(500).json({ error: "Order creation failed", details: err.message || err });
     }
 }
