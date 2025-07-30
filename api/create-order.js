@@ -5,6 +5,9 @@ const razorpay = new Razorpay({
     key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
+// Use environment variables for the API base URL
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+
 export default async function handler(req, res) {
     if (req.method !== "POST") {
         res.status(405).json({ error: "Method not allowed" });
