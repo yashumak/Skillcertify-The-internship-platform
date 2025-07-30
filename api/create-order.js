@@ -30,9 +30,9 @@ export default async function handler(req, res) {
 
     try {
         const order = await razorpay.orders.create(options);
-        res.status(200).json(order);
+        res.status(200).json(order); // This should include order.id
     } catch (err) {
-        console.error("Razorpay error:", err); // Log full error to Vercel logs
+        console.error("Razorpay error:", err);
         res.status(500).json({ error: "Order creation failed", details: err.message || err });
     }
 }
