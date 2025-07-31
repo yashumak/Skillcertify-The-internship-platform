@@ -61,12 +61,12 @@ const PaymentModal = ({ isOpen, onClose, course, amount }) => {
       if (orderData && orderData.id) {
         // Initialize Razorpay
         const options = {
-          key: orderData.key, // <-- This should be your Razorpay public key
+          key: import.meta.env.VITE_RAZORPAY_KEY_ID, // <-- This is correct!
           amount: amount * 100,
           currency: "INR",
           name: "SkillCertify",
           description: `Payment for ${course.title}`,
-          order_id: orderData.orderId,
+          order_id: orderData.id, // Razorpay order id from backend
           prefill: {
             name: formData.name,
             email: formData.email,
@@ -76,7 +76,6 @@ const PaymentModal = ({ isOpen, onClose, course, amount }) => {
             color: "#3B82F6",
           },
           handler: function (response) {
-            // Payment successful
             handlePaymentSuccess(response);
           },
           modal: {
