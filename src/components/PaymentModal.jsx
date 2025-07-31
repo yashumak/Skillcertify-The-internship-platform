@@ -42,7 +42,7 @@ const PaymentModal = ({ isOpen, onClose, course, amount }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          amount: amount * 100, // Convert to paise
+          amount: amount, // <-- Only send the rupee value (e.g., 100)
           currency: "INR",
           courseId: course.id,
           courseName: course.title,
