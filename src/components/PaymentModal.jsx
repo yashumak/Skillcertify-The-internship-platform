@@ -62,7 +62,7 @@ const PaymentModal = ({ isOpen, onClose, course, amount }) => {
         // Initialize Razorpay
         const options = {
           key: import.meta.env.VITE_RAZORPAY_KEY_ID, // <-- This is correct!
-          amount: amount * 1,
+          amount: amount * 100,
           currency: "INR",
           name: "SkillCertify",
           description: `Payment for ${course.title}`,
