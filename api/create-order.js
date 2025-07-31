@@ -23,7 +23,7 @@ export default async function handler(req, res) {
     });
 
     const options = {
-        amount: body.amount * 100, // Convert ₹ to paise
+        amount: body.amount * 1, // Convert ₹ to paise
         currency: "INR",
         receipt: "order_rcptid_11",
     };
