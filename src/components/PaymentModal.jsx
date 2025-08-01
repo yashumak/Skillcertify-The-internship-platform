@@ -61,16 +61,16 @@ const PaymentModal = ({ isOpen, onClose, course, amount }) => {
       if (orderData && orderData.id) {
         // Initialize Razorpay
         const options = {
-          key: import.meta.env.VITE_RAZORPAY_KEY_ID, // <-- This is correct!
+          key: import.meta.env.VITE_RAZORPAY_KEY_ID,
           amount: amount * 100,
           currency: "INR",
           name: "SkillCertify",
           description: `Payment for ${course.title}`,
-          order_id: orderData.id, // Razorpay order id from backend
+          order_id: orderData.id,
           prefill: {
             name: formData.name,
             email: formData.email,
-            contact: formData.phone,
+            contact: formData.phone, // <-- your input
           },
           theme: {
             color: "#3B82F6",
