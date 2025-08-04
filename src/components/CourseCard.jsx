@@ -28,6 +28,7 @@ export default function CourseCard({ course, index }) {
     e.target.src = "/images/placeholder.jpg";
     e.target.alt = "Course image placeholder";
   };
+  
 
   const handleImageLoad = (e) => {
     e.target.style.opacity = "1";
