@@ -12,12 +12,12 @@ import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import Cookies from "./pages/Cookies";
 import Refund from "./pages/Refund";
+import Login from "./pages/login"; // Correct: lowercase 'login'
+import Signup from "./pages/signup"; // Correct: lowercase 'signup'
 
 const App = () => {
   return (
-    <BrowserRouter
-      future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
-    >
+    <BrowserRouter>
       <ScrollToTop />
       <div className="flex flex-col min-h-screen">
         <Navbar />
@@ -32,6 +32,9 @@ const App = () => {
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/cookies" element={<Cookies />} />
             <Route path="/refund" element={<Refund />} />
+            <Route path="/login" element={<Login />} /> {/* ✅ Login route */}
+            <Route path="/signup" element={<Signup />} />{" "}
+            {/* ✅ Signup route */}
           </Routes>
         </main>
         <Footer />
