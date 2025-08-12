@@ -4,7 +4,11 @@ const MONGODB_URI = "mongodb://localhost:27017/skillcertify"; // Replace DB name
 
 if (!MONGODB_URI) throw new Error("MongoDB URI not found");
 
+<<<<<<< HEAD
 // U~se global cache for development to avoid multiple connections
+=======
+// Use global cache for development to avoid multiple connections
+>>>>>>> e53e2cc3c0881c10ffbef5bb1d20042510a097f8
 let cached = global.mongoose || { conn: null, promise: null };
 
 export async function connectDB() {
