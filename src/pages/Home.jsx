@@ -46,6 +46,7 @@ function Home() {
           </div>
 
           <div className="relative h-[400px] rounded-lg overflow-hidden bg-gray-100">
+            {/* Hero image (keep eager for fast load) */}
             <img
               src="/images/Home.png"
               alt="Online learning"
@@ -206,7 +207,6 @@ function Home() {
         </div>
       </section>
 
-    
       <section className="py-16 bg-gray-50 rounded-xl my-16 shadow-lg">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-12 text-blue-800 drop-shadow">
@@ -242,13 +242,14 @@ function Home() {
               >
                 <div className="flex items-center mb-6">
                   <div className="w-14 h-14 rounded-full overflow-hidden mr-4 border-2 border-blue-200 bg-gray-100">
+                    {/* Student review images (change eager to lazy) */}
                     <img
                       src={student.img}
                       alt={student.name}
                       className="w-full h-full object-cover opacity-0 transition-opacity duration-300"
                       onLoad={handleImageLoad}
                       onError={handleImageError}
-                      loading="eager"
+                      loading="lazy" // <-- changed from eager to lazy
                     />
                   </div>
                   <div>
