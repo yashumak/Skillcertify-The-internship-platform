@@ -56,9 +56,7 @@ export default function SignupPage() {
             Sign Up
           </button>
         </form>
-        {error && (
-          <p className="text-red-600 mt-2 text-sm text-center">{error}</p>
-        )}
+        {error && <div className="error">{error}</div>}
         <p className="text-center mt-4 text-sm">
           Already have an account?{" "}
           <Link to="/login" className="text-blue-600 hover:underline">
