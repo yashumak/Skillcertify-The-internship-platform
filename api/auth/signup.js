@@ -1,5 +1,6 @@
 import { connectDB } from "../../lib/mongodb.jsx";
 import User from "../../models/User.jsx";
+import bcrypt from "bcryptjs";
 
 export default async function handler(req, res) {
     if (req.method !== "POST") {
@@ -17,12 +18,18 @@ export default async function handler(req, res) {
     await connectDB();
 
     try {
-        const existingUser = await User.findOne({ email });
+        const trimmedEmail = email.trim().toLowerCase();
+        const trimmedName = name.trim();
+
+        const existingUser = await User.findOne({ email: trimmedEmail });
         if (existingUser) {
             res.status(400).json({ error: "Email already registered" });
             return;
         }
-        const user = new User({ name, email, password });
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const user = new User({ name: trimmedName, email: trimmedEmail, password: hashedPassword });
         await user.save();
         res.status(201).json({ message: "Signup successful" });
     } catch (err) {
