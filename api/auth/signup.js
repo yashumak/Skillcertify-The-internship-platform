@@ -34,6 +34,7 @@ export default async function handler(req, res) {
         res.status(201).json({ message: "Signup successful" });
     } catch (err) {
         console.error("Signup error:", err);
+        console.log("Error occurred at:", new Error().stack);
         res.status(500).json({ error: "Signup failed" });
     }
 }
