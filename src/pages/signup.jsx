@@ -14,7 +14,12 @@ export default function SignupPage() {
       await axios.post("/api/auth/signup", { name, email, password });
       alert("Signup successful");
     } catch (err) {
-      setError(err.response?.data?.error || "Signup failed");
+      setError(
+        err.response?.data?.error ||
+          err.response?.data?.message ||
+          err.message ||
+          "Something went wrong"
+      );
     }
   };
 
@@ -56,7 +61,9 @@ export default function SignupPage() {
             Sign Up
           </button>
         </form>
-        {error && <div className="error">{error}</div>}
+        {typeof error === "string" && error && (
+          <div className="error">{error}</div>
+        )}
         <p className="text-center mt-4 text-sm">
           Already have an account?{" "}
           <Link to="/login" className="text-blue-600 hover:underline">

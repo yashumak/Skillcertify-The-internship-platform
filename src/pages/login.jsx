@@ -13,7 +13,12 @@ export default function LoginPage() {
       await axios.post("/api/auth/login", { email, password }); // Adjust if needed
       alert("Login successful");
     } catch (err) {
-      setError(err.response?.data?.error || "Login failed");
+      setError(
+        err.response?.data?.error ||
+          err.response?.data?.message ||
+          err.message ||
+          "Something went wrong"
+      );
     }
   };
 
