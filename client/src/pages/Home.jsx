@@ -1,37 +1,30 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, BookOpen, CheckCircle, Award, Users } from "lucide-react";
-import { getCurrentUser } from "../utils/auth";
+import { getCurrentUser } from "../utils/auth.js";
+
+import {
+  ArrowRight,
+  BookOpen,
+  Award as Certificate,
+  CheckCircle,
+  CreditCard,
+} from "lucide-react";
 import FeaturedCourses from "../components/FeaturedCourses";
 
-export default function Home() {
+function Home() {
   const [user, setUser] = useState(null);
-  const errorHandledRef = useRef(false);
 
   useEffect(() => {
     const currentUser = getCurrentUser();
     setUser(currentUser);
   }, []);
 
-  const handleImageError = (e) => {
-    // Prevent infinite loop by checking if we've already handled this error
-    if (errorHandledRef.current) {
-      return;
-    }
-    
-    // Mark this image as error handled
-    errorHandledRef.current = true;
-    
-    // Hide the image and show a placeholder div
-    e.target.style.display = 'none';
-    
-    const placeholderDiv = document.createElement('div');
-    placeholderDiv.className = 'absolute inset-0 bg-gray-200 flex items-center justify-center rounded-lg';
-    placeholderDiv.innerHTML = '<span class="text-gray-500 text-sm">Image not available</span>';
-    e.target.parentNode.appendChild(placeholderDiv);
-  };
+  // const handleImageError = (e) => {
+  //   e.target.src = "/images/placeholder.jpg";
+  //   e.target.alt = "Image placeholder";
+  // };
 
   const handleImageLoad = (e) => {
     e.target.style.opacity = "1";
@@ -126,12 +119,12 @@ export default function Home() {
                 desc: "Submit required tasks to demonstrate your understanding and mastery of the course material.",
               },
               {
-                icon: <Award className="h-8 w-8" />,
+                icon: <CreditCard className="h-8 w-8" />,
                 title: "3. Make Payment",
                 desc: "Pay a small fee of ₹100 to process your certification after completing all requirements.",
               },
               {
-                icon: <Users className="h-8 w-8" />,
+                icon: <Certificate className="h-8 w-8" />,
                 title: "4. Get Certified",
                 desc: "Download your personalized certificate to showcase your new skills to employers.",
               },
@@ -331,3 +324,5 @@ export default function Home() {
     </div>
   );
 }
+export default Home;
+
