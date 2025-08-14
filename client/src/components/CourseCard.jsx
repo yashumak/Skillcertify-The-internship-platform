@@ -1,6 +1,7 @@
 "use client";
 
 import { Link } from "react-router-dom";
+import { useRef } from "react";
 import {
   Card,
   CardContent,
@@ -24,9 +25,24 @@ const courseData = {
 };
 
 export default function CourseCard({ course, index }) {
+  const errorHandledRef = useRef(false);
+
   const handleImageError = (e) => {
-    e.target.src = "/images/placeholder.jpg";
-    e.target.alt = "Course image placeholder";
+    // Prevent infinite loop by checking if we've already handled this error
+    if (errorHandledRef.current) {
+      return;
+    }
+    
+    // Mark this card as error handled
+    errorHandledRef.current = true;
+    
+    // Hide the image and show a placeholder div
+    e.target.style.display = 'none';
+    
+    const placeholderDiv = document.createElement('div');
+    placeholderDiv.className = 'absolute inset-0 bg-gray-200 flex items-center justify-center';
+    placeholderDiv.innerHTML = '<span class="text-gray-500 text-sm">Image not available</span>';
+    e.target.parentNode.appendChild(placeholderDiv);
   };
   
 
@@ -37,7 +53,7 @@ export default function CourseCard({ course, index }) {
   return (
     <div className="card-hover">
       <Card className="overflow-hidden flex flex-col h-full hover:shadow-lg transition-shadow duration-300">
-        <div className="aspect-video w-full overflow-hidden bg-gray-100">
+        <div className="aspect-video w-full overflow-hidden bg-gray-100 relative">
           <img
             src={course.image}
             alt={course.title}

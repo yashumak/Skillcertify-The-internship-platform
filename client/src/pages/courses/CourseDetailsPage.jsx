@@ -1,25 +1,38 @@
+import React, { useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { allCourses } from "../Courses"; // Make sure this path is correct
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Clock, User, Share2, CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
-import { useToast } from "@/components/ui/use-toast"; // <-- fix import
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import PaymentModal from "@/components/PaymentModal";
-import { useState } from "react";
+import { Share2, Clock, Users, Award, CheckCircle } from "lucide-react";
 
 export default function CourseDetailsPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const { toast } = useToast(); // <-- call the hook
+  const { toast } = useToast();
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const errorHandledRef = useRef(false);
 
   // Find the course by slug
   const course = allCourses.find((c) => c.slug === slug);
 
   const handleImageError = (e) => {
-    e.target.src = "/images/placeholder.jpg";
-    e.target.alt = "Course image placeholder";
+    // Prevent infinite loop by checking if we've already handled this error
+    if (errorHandledRef.current) {
+      return;
+    }
+    
+    // Mark this image as error handled
+    errorHandledRef.current = true;
+    
+    // Hide the image and show a placeholder div
+    e.target.style.display = 'none';
+    
+    const placeholderDiv = document.createElement('div');
+    placeholderDiv.className = 'absolute inset-0 bg-gray-200 flex items-center justify-center rounded-lg';
+    placeholderDiv.innerHTML = '<span class="text-gray-500 text-sm">Image not available</span>';
+    e.target.parentNode.appendChild(placeholderDiv);
   };
 
   const handleImageLoad = (e) => {
@@ -141,7 +154,7 @@ export default function CourseDetailsPage() {
               <span>{course.duration}</span>
             </div>
             <div className="flex items-center gap-2">
-              <User className="h-5 w-5 text-green-500" />
+              <Users className="h-5 w-5 text-green-500" />
               <span>Level: {course.level}</span>
             </div>
           </div>

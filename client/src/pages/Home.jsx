@@ -1,20 +1,14 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { getCurrentUser } from "../utils/auth.js";
-
-import {
-  ArrowRight,
-  BookOpen,
-  Award as Certificate,
-  CheckCircle,
-  CreditCard,
-} from "lucide-react";
+import { ArrowRight, BookOpen, CheckCircle, Award, Users } from "lucide-react";
+import { getCurrentUser } from "../utils/auth";
 import FeaturedCourses from "../components/FeaturedCourses";
 
-function Home() {
+export default function Home() {
   const [user, setUser] = useState(null);
+  const errorHandledRef = useRef(false);
 
   useEffect(() => {
     const currentUser = getCurrentUser();
@@ -22,8 +16,21 @@ function Home() {
   }, []);
 
   const handleImageError = (e) => {
-    e.target.src = "/images/placeholder.jpg";
-    e.target.alt = "Image placeholder";
+    // Prevent infinite loop by checking if we've already handled this error
+    if (errorHandledRef.current) {
+      return;
+    }
+    
+    // Mark this image as error handled
+    errorHandledRef.current = true;
+    
+    // Hide the image and show a placeholder div
+    e.target.style.display = 'none';
+    
+    const placeholderDiv = document.createElement('div');
+    placeholderDiv.className = 'absolute inset-0 bg-gray-200 flex items-center justify-center rounded-lg';
+    placeholderDiv.innerHTML = '<span class="text-gray-500 text-sm">Image not available</span>';
+    e.target.parentNode.appendChild(placeholderDiv);
   };
 
   const handleImageLoad = (e) => {
@@ -119,12 +126,12 @@ function Home() {
                 desc: "Submit required tasks to demonstrate your understanding and mastery of the course material.",
               },
               {
-                icon: <CreditCard className="h-8 w-8" />,
+                icon: <Award className="h-8 w-8" />,
                 title: "3. Make Payment",
                 desc: "Pay a small fee of ₹100 to process your certification after completing all requirements.",
               },
               {
-                icon: <Certificate className="h-8 w-8" />,
+                icon: <Users className="h-8 w-8" />,
                 title: "4. Get Certified",
                 desc: "Download your personalized certificate to showcase your new skills to employers.",
               },
@@ -324,5 +331,3 @@ function Home() {
     </div>
   );
 }
-
-export default Home;

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 
 function FeaturedCourses() {
   const [visibleCourses, setVisibleCourses] = useState(3);
+  const errorHandledRef = useRef(new Set());
 
   const courses = [
     {
@@ -41,9 +42,26 @@ function FeaturedCourses() {
     },
   ];
 
-  const handleImageError = (e) => {
-    e.target.src = "/images/placeholder.jpg";
-    e.target.alt = "Course image placeholder";
+  const handleImageError = (e, courseId) => {
+    // Prevent infinite loop by checking if we've already handled this error
+    if (errorHandledRef.current.has(courseId)) {
+      return;
+    }
+    
+    // Mark this course as error handled
+    errorHandledRef.current.add(courseId);
+    
+    // Set a fallback image or hide the image
+    e.target.style.display = 'none';
+    
+    // Alternative: Set a data URI for a simple placeholder
+    // e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='225' viewBox='0 0 400 225'%3E%3Crect width='400' height='225' fill='%23f3f4f6'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='16' fill='%236b7280'%3EImage not available%3C/text%3E%3C/svg%3E";
+    
+    // Or show a placeholder div instead
+    const placeholderDiv = document.createElement('div');
+    placeholderDiv.className = 'absolute inset-0 bg-gray-200 flex items-center justify-center';
+    placeholderDiv.innerHTML = '<span class="text-gray-500 text-sm">Image not available</span>';
+    e.target.parentNode.appendChild(placeholderDiv);
   };
 
   const handleImageLoad = (e) => {
@@ -64,7 +82,7 @@ function FeaturedCourses() {
                 alt={course.title}
                 className="object-cover w-full h-full transform hover:scale-105 transition-transform duration-300 opacity-0 transition-opacity duration-300"
                 onLoad={handleImageLoad}
-                onError={handleImageError}
+                onError={(e) => handleImageError(e, course.id)}
                 loading="eager"
               />
             </div>
