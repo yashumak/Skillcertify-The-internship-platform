@@ -167,7 +167,7 @@ export default function CourseDetailsPage() {
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             <div className="rounded-lg overflow-hidden border bg-card text-card-foreground shadow-lg">
-              <div className="aspect-video w-full overflow-hidden bg-gray-100">
+              {/* <div className="aspect-video w-full overflow-hidden bg-gray-100">
                 <img
                   src={course.image || "/images/placeholder.jpg"}
                   alt={course.title}
@@ -176,7 +176,7 @@ export default function CourseDetailsPage() {
                   onError={handleImageError}
                   loading="eager"
                 />
-              </div>
+              </div> */}
               <div className="p-6 space-y-6">
                 <div className="space-y-2">
                   <div className="flex justify-between">
