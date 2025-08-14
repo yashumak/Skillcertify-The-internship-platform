@@ -1,4 +1,4 @@
-import connectDB from "../db/connectDB";
+import { connectDB } from "../../lib/mongodb.jsx";
 import User from "../../models/User.jsx";
 import bcrypt from "bcryptjs";
 

@@ -1,24 +1,62 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { API_ENDPOINTS } from "../config/api.js";
+import { getCurrentUser, saveUser } from "../utils/auth.js";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  // Check if user is already logged in
+  useEffect(() => {
+    const user = getCurrentUser();
+    if (user) {
+      // User is already logged in, redirect to home
+      navigate('/');
+    }
+  }, [navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
+    
     try {
-      await axios.post("/api/auth/login", { email, password }); // Adjust if needed
+      const response = await axios.post(API_ENDPOINTS.AUTH.LOGIN, { 
+        email, 
+        password 
+      });
+      
+      console.log("Login successful:", response.data);
+      
+      // Save user data to localStorage using utility function
+      const userData = {
+        id: response.data.user.id,
+        name: response.data.user.name,
+        email: response.data.user.email
+      };
+      
+      saveUser(userData);
+      
       alert("Login successful");
+      
+      // Redirect to home page
+      navigate('/');
+      
     } catch (err) {
+      console.error("Login error:", err);
       setError(
         err.response?.data?.error ||
-          err.response?.data?.message ||
-          err.message ||
-          "Something went wrong"
+        err.response?.data?.message ||
+        err.message ||
+        "Something went wrong"
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -36,6 +74,7 @@ export default function LoginPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            disabled={loading}
           />
           <input
             type="password"
@@ -44,12 +83,18 @@ export default function LoginPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            disabled={loading}
           />
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300"
+            className={`w-full py-2 rounded-lg transition duration-300 ${
+              loading 
+                ? 'bg-gray-400 cursor-not-allowed' 
+                : 'bg-blue-600 hover:bg-blue-700'
+            } text-white`}
+            disabled={loading}
           >
-            Login
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
         {error && (

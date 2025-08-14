@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { getCurrentUser } from "../utils/auth.js";
 
 import {
   ArrowRight,
@@ -13,6 +14,13 @@ import {
 import FeaturedCourses from "../components/FeaturedCourses";
 
 function Home() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const currentUser = getCurrentUser();
+    setUser(currentUser);
+  }, []);
+
   const handleImageError = (e) => {
     e.target.src = "/images/placeholder.jpg";
     e.target.alt = "Image placeholder";
@@ -24,6 +32,34 @@ function Home() {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      {/* Welcome Message for Logged In Users */}
+      {user && (
+        <div className="bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg p-6 mb-8 shadow-lg">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold mb-2">
+              Welcome back, {user.name}! 👋
+            </h2>
+            <p className="text-blue-100 text-lg">
+              Ready to continue your learning journey? Check out our latest courses and track your progress.
+            </p>
+            <div className="mt-4 flex justify-center space-x-4">
+              <Link
+                to="/courses"
+                className="inline-flex items-center justify-center px-6 py-2 bg-white text-blue-600 rounded-md font-semibold hover:bg-gray-100 transition-all duration-200"
+              >
+                Browse Courses <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+              <Link
+                to="/dashboard"
+                className="inline-flex items-center justify-center px-6 py-2 bg-blue-600 text-white rounded-md font-semibold hover:bg-blue-700 transition-all duration-200 border border-white"
+              >
+                Go to Dashboard
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Hero Section */}
       <section className="py-12 md:py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">

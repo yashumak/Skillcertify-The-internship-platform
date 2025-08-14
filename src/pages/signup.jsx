@@ -1,25 +1,78 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { API_ENDPOINTS } from "../config/api.js";
+import { getCurrentUser, saveUser } from "../utils/auth.js";
 
 export default function SignupPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
+  // Check if user is already logged in
+  useEffect(() => {
+    const user = getCurrentUser();
+    if (user) {
+      // User is already logged in, redirect to home
+      navigate('/');
+    }
+  }, [navigate]);
+  
   const handleSignup = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
+    
     try {
-      await axios.post("/api/auth/signup", { name, email, password });
-      alert("Signup successful");
+      const response = await axios.post(API_ENDPOINTS.AUTH.SIGNUP, { 
+        name, 
+        email, 
+        password 
+      });
+      
+      console.log("Signup successful:", response.data);
+      
+      // After successful signup, automatically log in the user
+      try {
+        const loginResponse = await axios.post(API_ENDPOINTS.AUTH.LOGIN, {
+          email,
+          password
+        });
+        
+        // Save user data to localStorage using utility function
+        const userData = {
+          id: loginResponse.data.user.id,
+          name: loginResponse.data.user.name,
+          email: loginResponse.data.user.email
+        };
+        
+        saveUser(userData);
+        
+        alert("Account created and logged in successfully!");
+        
+        // Redirect to home page
+        navigate('/');
+        
+      } catch (loginErr) {
+        console.error("Auto-login error:", loginErr);
+        // If auto-login fails, just redirect to login page
+        alert("Account created successfully! Please log in.");
+        navigate("/login");
+      }
+      
     } catch (err) {
+      console.error("Signup error:", err);
       setError(
         err.response?.data?.error ||
-          err.response?.data?.message ||
-          err.message ||
-          "Something went wrong"
+        err.response?.data?.message ||
+        err.message ||
+        "Something went wrong"
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -37,6 +90,7 @@ export default function SignupPage() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
+            disabled={loading}
           />
           <input
             type="email"
@@ -45,6 +99,7 @@ export default function SignupPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            disabled={loading}
           />
           <input
             type="password"
@@ -53,16 +108,22 @@ export default function SignupPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            disabled={loading}
           />
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300"
+            className={`w-full py-2 rounded-lg transition duration-300 ${
+              loading 
+                ? 'bg-gray-400 cursor-not-allowed' 
+                : 'bg-blue-600 hover:bg-blue-700'
+            } text-white`}
+            disabled={loading}
           >
-            Sign Up
+            {loading ? "Creating account..." : "Sign Up"}
           </button>
         </form>
-        {typeof error === "string" && error && (
-          <div className="error">{error}</div>
+        {error && (
+          <p className="text-red-600 mt-2 text-sm text-center">{error}</p>
         )}
         <p className="text-center mt-4 text-sm">
           Already have an account?{" "}
