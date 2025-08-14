@@ -1,6 +1,4 @@
 // API Configuration
-import dotenv from 'dotenv';
-dotenv.config();
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://skillcertify-the-internship-platform.onrender.com';
 
 export const API_ENDPOINTS = {
