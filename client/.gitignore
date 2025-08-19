@@ -26,7 +26,10 @@ dist-ssr
 # Environment variables and private config
 .env
 .env.local
+# Ignore example env files too (per request)
+env.example
 .env.example
+server/env.example
 .env.development
 .env.production
 .env.*.local
@@ -42,3 +45,16 @@ Desktop.ini
 #build
 build/
 build-ssr/
+
+# Additional secrets and keys
+server/.env
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+*.jks
+credentials.json
+firebase-service-account.json
+.envrc
+.npmrc

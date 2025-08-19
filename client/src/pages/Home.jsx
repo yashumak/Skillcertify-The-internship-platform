@@ -21,10 +21,11 @@ function Home() {
     setUser(currentUser);
   }, []);
 
-  // const handleImageError = (e) => {
-  //   e.target.src = "/images/placeholder.jpg";
-  //   e.target.alt = "Image placeholder";
-  // };
+  const handleImageError = (e) => {
+    e.target.src = "/images/placeholder.jpg";
+    e.target.alt = "Image placeholder";
+    e.target.style.opacity = "1";
+  };
 
   const handleImageLoad = (e) => {
     e.target.style.opacity = "1";
